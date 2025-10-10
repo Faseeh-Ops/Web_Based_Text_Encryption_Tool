@@ -1,0 +1,60 @@
+import base64
+import hashlib
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
+
+def caesar_cipher(text, shift, mode='encrypt'):
+
+    result = ""
+    for char in text:
+        if char.isalpha():
+            start = ord('a') if char.islower() else ord('A')
+            if mode == 'encrypt':
+                shifted = (ord(char) - start + shift) % 26
+            else:  # decrypt
+                shifted = (ord(char) - start - shift) % 26
+            result += chr(start + shifted)
+        else:
+            result += char
+    return result
+
+
+def aes_encrypt(text, key):
+
+    key_bytes = key.encode('utf-8')
+    if len(key_bytes) not in [16, 24, 32]:
+        raise ValueError("AES key must be 16, 24, or 32 bytes long.")
+
+    data_bytes = text.encode('utf-8')
+    cipher = AES.new(key_bytes, AES.MODE_CBC)
+    iv = cipher.iv
+    ct_bytes = cipher.encrypt(pad(data_bytes, AES.block_size))
+
+    return base64.b64encode(iv).decode('utf-8'), base64.b64encode(ct_bytes).decode('utf-8')
+
+
+def aes_decrypt(iv_b64, ciphertext_b64, key):
+
+    key_bytes = key.encode('utf-8')
+    if len(key_bytes) not in [16, 24, 32]:
+        raise ValueError("AES key must be 16, 24, or 32 bytes long.")
+
+    iv = base64.b64decode(iv_b64)
+    ct = base64.b64decode(ciphertext_b64)
+    cipher = AES.new(key_bytes, AES.MODE_CBC, iv)
+    pt_bytes = unpad(cipher.decrypt(ct), AES.block_size)
+    return pt_bytes.decode('utf-8')
+
+def base64_encode(text):
+
+    return base64.b64encode(text.encode('utf-8')).decode('utf-8')
+
+
+def base64_decode(text):
+
+    return base64.b64decode(text.encode('utf-8')).decode('utf-8')
+
+def sha256_hash(text):
+
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
