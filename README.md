@@ -43,7 +43,7 @@ Follow these steps to get the application running on your local machine.
 
 1. Clone the Repository
 
-git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
+git clone [https://github.com/your-username/your-repository-name.git](https://github.com/Faseeh-Ops/Web_Based_Text_Encryption_Tool)
 cd your-repository-name
 
 Create and Activate a Virtual Environment
