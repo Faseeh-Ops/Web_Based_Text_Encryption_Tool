@@ -49,6 +49,10 @@ cd your-repository-name
 Create and Activate a Virtual Environment
 It's recommended to use a virtual environment to manage dependencies.
 
+Deployment:
+
+Depoyed well on Streamlit(https://web-based-text-encryption-tool.streamlit.app/)
+
 # For Windows
 python -m venv venv
 .\venv\Scripts\activate
