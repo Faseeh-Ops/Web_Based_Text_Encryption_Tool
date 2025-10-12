@@ -1,4 +1,4 @@
-CryptoCraft: The Modern Encryption Tool
+CipherSphere: The Modern Encryption Tool
 CryptoCraft is a dynamic and highly stylized web application for text encryption, decryption, and hashing. Built with Python and the Streamlit framework, it provides a user-friendly interface for performing cryptographic operations using various algorithms. The application's standout feature is its futuristic, animated UI, crafted with custom CSS to create an engaging "cyber" aesthetic.
 
 (Pro Tip: Take a screenshot of your running app, upload it to a site like Imgur, and paste the link here to show off your UI!)

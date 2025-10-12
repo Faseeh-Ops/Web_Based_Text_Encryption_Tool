@@ -9,7 +9,7 @@ from ciphers import (
 )
 from ui_components import load_css
 
-st.set_page_config(page_title="CryptoCraft", layout="wide")
+st.set_page_config(page_title="CipherSphere", layout="wide")
 load_css()
 
 if 'plain_text' not in st.session_state:
