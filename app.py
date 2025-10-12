@@ -75,7 +75,7 @@ def handle_decryption():
         st.error(f"Decryption Error: {e}")
 
 
-st.title("CryptoCraft: The Modern Encryption Tool")
+st.title("CipherSphere: The Modern Encryption Tool")
 st.markdown("A sleek, secure, and powerful tool for all your cryptographic needs.")
 
 with st.sidebar:
