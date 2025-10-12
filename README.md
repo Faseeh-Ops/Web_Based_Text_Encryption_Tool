@@ -22,7 +22,7 @@ Intuitive Layout: A clear side-by-side view for plain text and cipher text, matc
 
 Organized Codebase: The project is structured into separate files for logic (ciphers.py), UI styling (ui_components.py), and the main application (app.py).
 
-🛠️ Tech Stack
+ Tech Stack
 Framework: Streamlit
 
 Language: Python
