@@ -20,6 +20,15 @@ Intuitive Layout: A clear side-by-side view for plain text and cipher text, matc
 
 Organized Codebase: The project is structured into separate files for logic (ciphers.py), UI styling (ui_components.py), and the main application (app.py).
 
+<img width="3840" height="1656" alt="image" src="https://github.com/user-attachments/assets/10e26906-cb22-46a8-b1db-15e486104b90" />
+
+<img width="3840" height="1647" alt="image" src="https://github.com/user-attachments/assets/e4932f4b-19c7-4b96-a363-24b8bc25550e" />
+
+<img width="2700" height="198" alt="image" src="https://github.com/user-attachments/assets/8f40f610-bd08-47e1-b306-d1fea4a5787d" />
+
+
+
+
  Tech Stack
 Framework: Streamlit
 
@@ -34,11 +43,15 @@ Follow these steps to get the application running on your local machine.
 
 1. Clone the Repository
 
-git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
+git clone [https://github.com/your-username/your-repository-name.git](https://github.com/Faseeh-Ops/Web_Based_Text_Encryption_Tool)
 cd your-repository-name
 
 Create and Activate a Virtual Environment
 It's recommended to use a virtual environment to manage dependencies.
+
+Deployment:
+
+Depoyed well on Streamlit(https://web-based-text-encryption-tool.streamlit.app/)
 
 # For Windows
 python -m venv venv
