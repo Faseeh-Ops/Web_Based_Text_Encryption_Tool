@@ -1,6 +1,9 @@
 import streamlit as st
 from ciphers import (
     caesar_cipher,
+    vigenere_cipher,
+    rail_fence_encrypt,
+    rail_fence_decrypt,
     aes_encrypt,
     aes_decrypt,
     base64_encode,
@@ -17,27 +20,35 @@ if 'plain_text' not in st.session_state:
 if 'cipher_text' not in st.session_state:
     st.session_state.cipher_text = ""
 
-def handle_encryption():
 
+def handle_encryption():
     plain_text = st.session_state.plain_text_input
     if not plain_text:
         st.warning("Please enter some plain text to encrypt.")
         return
-
     try:
         result = ""
-        if st.session_state.algorithm == "Caesar Cipher":
+        algo = st.session_state.algorithm
+
+        if algo == "Caesar Cipher":
             result = caesar_cipher(plain_text, st.session_state.shift, mode='encrypt')
-        elif st.session_state.algorithm == "AES":
+        elif algo == "Vigenère Cipher":
+            if not st.session_state.get('key'):
+                st.error("Please provide a key for Vigenère Cipher.")
+                return
+            result = vigenere_cipher(plain_text, st.session_state.key, mode='encrypt')
+        elif algo == "Rail Fence Cipher":
+            result = rail_fence_encrypt(plain_text, st.session_state.rails)
+        elif algo == "AES":
             if len(st.session_state.get('key', '')) not in [16, 24, 32]:
                 st.error("AES key must be 16, 24, or 32 characters long.")
                 return
             iv_b64, ct_b64 = aes_encrypt(plain_text, st.session_state.key)
             st.info(f"AES IV (save for decryption): {iv_b64}")
             result = ct_b64
-        elif st.session_state.algorithm == "Base64":
+        elif algo == "Base64":
             result = base64_encode(plain_text)
-        elif st.session_state.algorithm == "SHA-256 Hash":
+        elif algo == "SHA-256 Hash":
             result = sha256_hash(plain_text)
 
         st.session_state.cipher_text_input = result
@@ -46,28 +57,34 @@ def handle_encryption():
 
 
 def handle_decryption():
-
     cipher_text = st.session_state.cipher_text_input
     if not cipher_text:
         st.warning("Please enter some cipher text to decrypt.")
         return
-    if st.session_state.algorithm == "SHA-256 Hash":
-        st.error("Hashing is a one-way function and cannot be decrypted.")
+    algo = st.session_state.algorithm
+    if algo == "SHA-256 Hash":
+        st.error("Hashing is one-way and cannot be decrypted.")
         return
-
     try:
         result = ""
-        if st.session_state.algorithm == "Caesar Cipher":
+        if algo == "Caesar Cipher":
             result = caesar_cipher(cipher_text, st.session_state.shift, mode='decrypt')
-        elif st.session_state.algorithm == "AES":
+        elif algo == "Vigenère Cipher":
+            if not st.session_state.get('key'):
+                st.error("Please provide a key for Vigenère Cipher.")
+                return
+            result = vigenere_cipher(cipher_text, st.session_state.key, mode='decrypt')
+        elif algo == "Rail Fence Cipher":
+            result = rail_fence_decrypt(cipher_text, st.session_state.rails)
+        elif algo == "AES":
             if len(st.session_state.get('key', '')) not in [16, 24, 32]:
                 st.error("AES key must be 16, 24, or 32 characters long.")
                 return
             if not st.session_state.get('iv'):
-                st.error("Please provide the Initialization Vector (IV) for AES decryption.")
+                st.error("Please provide the IV for AES decryption.")
                 return
             result = aes_decrypt(st.session_state.iv, cipher_text, st.session_state.key)
-        elif st.session_state.algorithm == "Base64":
+        elif algo == "Base64":
             result = base64_decode(cipher_text)
 
         st.session_state.plain_text_input = result
@@ -83,7 +100,7 @@ with st.sidebar:
 
     st.selectbox(
         "Select Algorithm",
-        ["Caesar Cipher", "AES", "Base64", "SHA-256 Hash"],
+        ["Caesar Cipher", "Vigenère Cipher", "Rail Fence Cipher", "AES", "Base64", "SHA-256 Hash"],
         key='algorithm',
         label_visibility="collapsed"
     )
@@ -91,10 +108,20 @@ with st.sidebar:
     if st.session_state.algorithm == "Caesar Cipher":
         st.subheader("Caesar Cipher Settings")
         st.slider("Shift Value", 1, 25, 3, key='shift')
+
+    elif st.session_state.algorithm == "Vigenère Cipher":
+        st.subheader("Vigenère Settings")
+        st.text_input("Enter Key (letters only)", key='key')
+
+    elif st.session_state.algorithm == "Rail Fence Cipher":
+        st.subheader("Rail Fence Settings")
+        st.number_input("Number of Rails", min_value=2, max_value=10, value=3, key='rails')
+
     elif st.session_state.algorithm == "AES":
         st.subheader("AES Settings")
         st.text_input("Encryption Key (16, 24, or 32 chars)", type="password", key='key')
         st.text_input("Initialization Vector (IV)", help="Needed for decryption only.", key='iv')
+
 
 col1, col2 = st.columns(2, gap="large")
 
@@ -113,4 +140,3 @@ with btn_col1:
 
 with btn_col2:
     st.button("Decrypt", use_container_width=True, on_click=handle_decryption)
-
