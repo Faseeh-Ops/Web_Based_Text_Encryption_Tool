@@ -134,7 +134,6 @@ with col2:
     st.text_area("Enter text to decrypt", height=300, key="cipher_text_input", label_visibility="collapsed")
 
 btn_col1, btn_col2 = st.columns(2, gap="large")
-
 with btn_col1:
     st.button("Encrypt", use_container_width=True, type="primary", on_click=handle_encryption)
 

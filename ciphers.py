@@ -83,7 +83,5 @@ def base64_encode(text):
 
 def base64_decode(text):
     return base64.b64decode(text.encode('utf-8')).decode('utf-8')
-
-
 def sha256_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
